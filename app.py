@@ -1,0 +1,66 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import streamlit as st
+st.set_page_config(page_title='LEUKEMIA EDA Dashboard',layout='wide')
+st.title('🧬LEUKEMIA Gene Expression Dashboard')
+st.markdown("""Exploring the GSE9476 dataset
+            - 64 patient samples
+            - 22,283 gene-expression features
+            -Includes AML {Acute Myleoid Leukemia} and healthy reference groups """)
+df=pd.read_csv(r"C:\Users\Lenovo\Documents\Leukemia-eda-project\data\Leukemia.csv.csv")
+gene_data =df.drop(columns=['samples','type'])
+st.success('Dataset loaded successfully!')
+st.write(f'Shape:{df.shape[0]}patients x{df.shape[1]}columns')
+st.subheader('Patient Type Distribution')
+fig,ax=plt.subplots()
+df['type'].value_counts().plot(kind='bar',color='Red',edgecolor='black',ax=ax)
+ax.set_xlabel('Type')
+ax.set_ylabel('count')
+ax.tick_params(axis='x',rotation=45)
+plt.tight_layout()
+st.pyplot(fig)
+st.subheader('Dataset preview')
+st.dataframe(df[['samples','type']].head(10))
+st.subheader('Gene Expression Distribution')
+gene_variance=gene_data.var()
+top50_genes=gene_variance.sort_values(ascending=False).head(50).index
+gene=st.selectbox('Select a gene to explore',top50_genes)
+col1,col2=st.columns(2)
+with col1:
+    fig,ax=plt.subplots()
+    sns.histplot(df[gene],bins=20,kde=True,color='teal',ax=ax)
+    ax.set_title('Overall Distribution')
+    ax.set_xlabel('Expression value')
+    st.pyplot(fig)
+with col2:
+    fig,ax=plt.subplots()
+    sns.boxplot(x='type',y=gene,data=df,palette='pastel',ax=ax)
+    ax.set_title('Expresiion by Patient Type')
+    ax.tick_params(axis='x',rotation=45,colors='black')
+    st.pyplot(fig)
+st.subheader('Top 10 most Variable Gene')
+top10=gene_variance.sort_values(ascending=False).head(10)
+fig,ax=plt.subplots(figsize=(10,5))
+top10.plot(kind='bar',color='coral',edgecolor='black',ax=ax)
+ax.set_xlabel('GENE')
+ax.set_ylabel('VARIANCE')
+ax.tick_params(axis='x',rotation=45)
+plt.tight_layout()
+st.pyplot(fig)
+st.subheader('CORRELATION HEATMAP -Top 10 Variable Genes')
+top10_genes=gene_variance.sort_values(ascending=False).head(10).index
+corr_matrix=df[top10_genes].corr()
+fig,ax=plt.subplots(figsize=(10,8))
+sns.heatmap(corr_matrix,annot=True,fmt='.2f',cmap='RdBu_r',center=0,ax=ax)
+plt.tight_layout()
+st.pyplot(fig)
+with st.sidebar:
+    st.title('About')
+    st.title('🧬Dataset Overview')
+    st.markdown('Dataset:GSE9476')
+    st.markdown('Patients:64')
+    st.markdown('Genes:22283')
+    st.markdown('Classes:AML,Bone Marrow,PB,PBSC-CD34,Bone Marrow CD34')
+    st.markdown('---')
+    st.markdown('Bioinformatics Dashboard • Streamlit')
