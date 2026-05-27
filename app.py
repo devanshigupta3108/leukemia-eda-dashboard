@@ -8,7 +8,7 @@ st.markdown("""Exploring the GSE9476 dataset
             - 64 patient samples
             - 22,283 gene-expression features
             -Includes AML {Acute Myleoid Leukemia} and healthy reference groups """)
-df=pd.read_csv(r"C:\Users\Lenovo\Documents\Leukemia-eda-project\data\Leukemia.csv.csv")
+df=pd.read_csv(r"Leukemia.csv.csv")
 gene_data =df.drop(columns=['samples','type'])
 st.success('Dataset loaded successfully!')
 st.write(f'Shape:{df.shape[0]}patients x{df.shape[1]}columns')
