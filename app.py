@@ -107,3 +107,9 @@ with tab3:
                      'Patient Type':y})
     fig=px.scatter(pca_df,x='PC1',y='PC2',color='Patient Type',title=f'PCA Plot(explains{pca.explained_variance_ratio_.sum()*100:.1f}% of variance)')
     st.plotly_chart(fig,use_container_width=True)
+st.markdown("""
+    <style>
+    [data-testid="stStatusWidget"] {display: none;}
+    footer {visibility: hidden;}
+    </style>
+""", unsafe_allow_html=True)
