@@ -113,3 +113,4 @@ st.markdown("""
     footer {visibility: hidden;}
     </style>
 """, unsafe_allow_html=True)
+st.caption('Developed by Devanshi Gupta')
