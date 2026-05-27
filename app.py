@@ -93,17 +93,17 @@ with tab3:
     plt.tight_layout()
     st.pyplot(fig)
     plt.close()
-import plotly.express as px
-from sklearn.preprocessing import StandardScaler
-from sklearn.decomposition import PCA
-X=df.drop(columns=['type'])
-y=df['type']
-scaler=StandardScaler()
-X_scaled=scaler.fit_transform(X)
-pca=PCA(n_components=2)
-components=pca.fit_transform(X_scaled)
-pca_df=pd.DataFrame({'PC1':components[:,0],
+    import plotly.express as px
+    from sklearn.preprocessing import StandardScaler
+    from sklearn.decomposition import PCA
+    X=df.drop(columns=['type'])
+    y=df['type']
+    scaler=StandardScaler()
+    X_scaled=scaler.fit_transform(X)
+    pca=PCA(n_components=2)
+    components=pca.fit_transform(X_scaled)
+    pca_df=pd.DataFrame({'PC1':components[:,0],
                      'PC2':components[:,1],
                      'Patient Type':y})
-fig=px.scatter(pca_df,x='PC1',y='PC2',color='Patient Type',title=f'PCA Plot(explains{pca.explained_variance_ratio_.sum()*100:.1f}% of variance)')
-st.plotly_chart(fig,use_container_width=True)
+    fig=px.scatter(pca_df,x='PC1',y='PC2',color='Patient Type',title=f'PCA Plot(explains{pca.explained_variance_ratio_.sum()*100:.1f}% of variance)')
+    st.plotly_chart(fig,use_container_width=True)
