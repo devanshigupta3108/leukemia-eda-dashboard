@@ -25,5 +25,7 @@ https://leukemia-eda-dashboard-ucbvzhqquc2c7lqndjgm5r.streamlit.app
 - Numpy
 - Matplotlib
 - Seaborn
+- Plotly
+- scikit-learn
 - Streamlit
 
